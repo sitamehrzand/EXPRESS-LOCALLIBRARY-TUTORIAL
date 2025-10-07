@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{theGenre.name}
+  if showDelete === false
+    if genreBooksBookInstances.length
+      div(style='margin-left:20px;margin-top:20px')
+        h4 #[strong for this genre to get deleted, the following books and all their instances need to get deleted:]
+        dl
+
+          each book in genreBooksBookInstances
+            if book.genre.length === 1
+              div(class='mb-5')
+                dt    
+                div#mb-0 the book is:
+                  a(href=book.url) #{book.title}
+                  if book.instances.length > 0
+                    div#mb-0 and its available instances are:
+                      each instance in book.instances
+                        dt 
+                        a(href=instance.url) #{instance.imprint}
+                  else
+                    div#mb-0 it has no available instances
+
+                    dl
+
+      h4 #[strong for this genre to get deleted, the following books genre are needed to get updated and their genre list do not contain this genre:]
+      dl 
+
+        each book in genreBooksBookInstances
+          if book.genre.length > 1
+            div(class='mb-5')
+              dt    
+              div#mb-0 the book is:
+                a(href=book.url) #{book.title}
+                
+          
+  else
+    h2(style="color:red;") Do you really want to delete this Genre?
+
+    form(method='POST')
+      div.form-group
+        input#genreid.form-control(type='hidden', name='genreid', value=theGenre._id )
+        
+      button.btn.btn-primary(type='submit') Delete
