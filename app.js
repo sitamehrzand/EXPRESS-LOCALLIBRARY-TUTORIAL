@@ -7,6 +7,9 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog')
+const compression = require("compression")
+const helmet = require("helmet")
+const RateLimit = require("express-rate-limit")
 
 const app = express();
 
@@ -33,6 +36,21 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(compression());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'", "cdn.jsdelivr.net"],
+    },
+  }),
+);
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

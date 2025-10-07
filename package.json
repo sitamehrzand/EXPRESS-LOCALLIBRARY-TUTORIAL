@@ -8,10 +8,13 @@
     "serverstart": "DEBUG=express-locallibrary-tutorial:* npm run devstart"
   },
   "dependencies": {
+    "compression": "^1.8.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.21.2",
+    "express-rate-limit": "^8.1.0",
     "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
     "http-errors": "~1.6.3",
     "luxon": "^3.7.2",
     "mongoose": "^8.18.2",
@@ -20,5 +23,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=18.16.0"
   }
 }
